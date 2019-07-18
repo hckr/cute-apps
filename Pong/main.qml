@@ -45,12 +45,12 @@ Window {
 
   property double playerPos: 0.5
   property double computerPos: 0.5
-  property double moveStep: 0.01
+  property double moveStep: 0.005
 
   property double ballX: 0.5
   property double ballY: 0.5
 
-  property double ballV: 0.005
+  property double ballV: 0.01
   property double ballVx: 0
   property double ballVy: ballV
 
@@ -65,10 +65,10 @@ Window {
       if (keys.rightPressed) {
         playerPos += moveStep
       }
-      if (playerPos < 0) {
-        playerPos = 0
-      } else if (playerPos > 1) {
-        playerPos = 1
+      if (playerPos < playerPaddle.sizeX / 2) {
+        playerPos = playerPaddle.sizeX / 2
+      } else if (playerPos > 1 - playerPaddle.sizeX / 2) {
+        playerPos = 1 - playerPaddle.sizeX / 2
       }
 
       ballX += ballVx
@@ -85,61 +85,62 @@ Window {
         ballVy = 0
       }
 
-      var foo = (ballX - playerPos) / playerPaddleLoader.item.percWidth
-      console.log(foo)
-      if (ballY > 1 - playerPaddleLoader.item.percHeight && Math.abs(
-            foo) <= 0.5) {
-        var angle = Math.PI * Math.abs(foo) * 0.9
-        ballVy = -ballV * Math.cos(angle)
-        ballVx = ballV * Math.sin(angle) * (foo < 0 ? 1 : -1)
+      var goal = ballVy < 0 ? ballX : 0.5
+      var distX = computerPos - goal
+      if (Math.abs(distX) > moveStep) {
+        if (distX < 0) {
+          computerPos += moveStep
+        } else if (distX > 0) {
+          computerPos -= moveStep
+        }
+
+        if (computerPos < computerPaddle.sizeX / 2) {
+          computerPos = computerPaddle.sizeX / 2
+        } else if (computerPos > 1 - computerPaddle.sizeX / 2) {
+          computerPos = 1 - computerPaddle.sizeX / 2
+        }
       }
+
+      !function () {
+        var dist = (ballX - playerPos) / (playerPaddle.sizeX + ballSize / 2)
+        if (ballY > 1 - playerPaddle.sizeY && Math.abs(dist) <= 0.5) {
+          var angle = Math.PI * Math.abs(dist) * 0.9
+          ballVy = -ballV * Math.cos(angle)
+          ballVx = ballV * Math.sin(angle) * (dist < 0 ? -1 : 1)
+        }
+      }()
+
+       !function () {
+         var dist = (ballX - computerPos) / (computerPaddle.sizeX + ballSize / 2)
+         if (ballY < computerPaddle.sizeY - ballSize / 2 && Math.abs(
+               dist) <= 0.5) {
+           var angle = Math.PI * Math.abs(dist) * 0.9
+           ballVy = ballV * Math.cos(angle)
+           ballVx = ballV * Math.sin(angle) * (dist < 0 ? -1 : 1)
+         }
+       }()
     }
   }
 
-  Loader {
-    id: computerPaddleLoader
-    sourceComponent: paddle
-
-    property string color: 'magenta'
-    property double posX: computerPos
-    property double posY: 0
+  Paddle {
+    id: computerPaddle
+    color: 'magenta'
+    posX: computerPos
+    anchors.top: parent.top
   }
 
-  Loader {
-    id: playerPaddleLoader
-    sourceComponent: paddle
-
-    property string color: 'cyan'
-    property double posX: playerPos
-    property double posY: 1
+  Paddle {
+    id: playerPaddle
+    color: 'cyan'
+    posX: playerPos
+    anchors.bottom: parent.bottom
   }
 
-  Rectangle {
-    width: window.width * ballSize
-    height: width
-    radius: width * 0.5
-
+  Ball {
+    id: ball
     color: 'navy'
-
-    x: ballX * (window.width - width)
-    y: ballY * (window.height - height)
-  }
-
-  Component {
-    id: paddle
-
-    Rectangle {
-      property double percWidth: 1 / 4
-      property double percHeight: 1 / 30
-
-      width: window.width * percWidth
-      height: window.height * percHeight
-      radius: 10
-
-      color: parent.color
-
-      x: (posX) * (window.width - width)
-      y: (posY) * (window.height - height)
-    }
+    posX: ballX
+    posY: ballY
+    size: ballSize
   }
 }

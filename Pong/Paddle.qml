@@ -1,12 +1,13 @@
 import QtQuick 2.0
 
 Rectangle {
-  property int size: value
-  width: 50
-  height: 20
+  property double sizeX: 1 / 5
+  property double sizeY: 1 / 30
+  property double posX
 
-  color: 'magenta'
+  width: parent.width * sizeX
+  height: parent.height * sizeY
+  radius: 10
 
-  x: 0
-  y: 0
+  x: (posX - sizeX / 2) * parent.width
 }

@@ -3,5 +3,6 @@
         <file>main.qml</file>
         <file>Paddle.qml</file>
         <file>Ball.qml</file>
+        <file>Controls.qml</file>
     </qresource>
 </RCC>

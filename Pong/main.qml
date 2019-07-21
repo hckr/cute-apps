@@ -5,11 +5,11 @@ Window {
   visible: true
   width: 1024
   height: 768
-  title: qsTr("Pong!")
+  title: 'Pong!'
 
   Game {
     id: game
-    orientation: "vertical"
+    orientation: 'vertical'
 
     Paddle {
       id: player1
@@ -37,7 +37,32 @@ Window {
 
     Ball {
       id: ball
+      speed: 0.008
       color: 'navy'
+    }
+  }
+
+  Row {
+    anchors.centerIn: parent
+    spacing: 20
+    property int size: 50
+
+    Text {
+      font.pixelSize: parent.size
+      color: player1.color
+      text: game.score1
+    }
+
+    Text {
+      font.pixelSize: parent.size
+      color: ball.color
+      text: '–'
+    }
+
+    Text {
+      font.pixelSize: parent.size
+      color: player2.color
+      text: game.score2
     }
   }
 }

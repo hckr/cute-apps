@@ -2,7 +2,6 @@ import QtQuick 2.12
 import QtQuick.Window 2.12
 
 Window {
-  id: window
   visible: true
   width: 1024
   height: 768
@@ -10,46 +9,34 @@ Window {
 
   Game {
     id: game
-    orientation: "horizontal"
+    orientation: "vertical"
 
     Paddle {
       id: player1
-
-      pos: 0.5
-      side: Paddle.Side.Left
-
+      side: game.orientation === "horizontal" ? Paddle.Side.Left : Paddle.Side.Bottom
       color: 'magenta'
-      radius: 10
 
       ManualControls {
-        decKey: Qt.Key_Up
-        incKey: Qt.Key_Down
+        decKey: game.orientation === "horizontal" ? Qt.Key_W : Qt.Key_Left
+        incKey: game.orientation === "horizontal" ? Qt.Key_S : Qt.Key_Right
       }
       //      ComputerControls {}
     }
 
     Paddle {
       id: player2
-
-      pos: 0.5
-      side: Paddle.Side.Right
-
+      side: game.orientation === "horizontal" ? Paddle.Side.Right : Paddle.Side.Top
       color: 'cyan'
-      radius: 10
 
       //      ManualControls {
-      //        decKey: Qt.Key_A
-      //        incKey: Qt.Key_D
+      //        decKey: game.orientation === "horizontal" ? Qt.Key_Up : Qt.Key_A
+      //        incKey: game.orientation === "horizontal" ? Qt.Key_Down : Qt.Key_D
       //      }
       ComputerControls {}
     }
 
     Ball {
       id: ball
-
-      posX: 0.5
-      posY: 0.5
-
       color: 'navy'
     }
   }

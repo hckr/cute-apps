@@ -3,7 +3,7 @@ import "Utils.js" as Utils
 
 Rectangle {
   property int side
-  property double pos
+  property double pos: 0.5
 
   enum Side {
     Top = 1,
@@ -92,4 +92,6 @@ Rectangle {
   anchors.right: side === Paddle.Side.Right ? parent.right : undefined
   anchors.bottom: side === Paddle.Side.Bottom ? parent.bottom : undefined
   anchors.left: side === Paddle.Side.Left ? parent.left : undefined
+
+  radius: 10
 }

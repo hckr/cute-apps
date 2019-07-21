@@ -1,11 +1,11 @@
 import QtQuick 2.0
 
 Rectangle {
-  property double posX
-  property double posY
-
   property double size: 0.02
   property double speed: 0.005
+
+  property double posX
+  property double posY
   property double speedX
   property double speedY
 

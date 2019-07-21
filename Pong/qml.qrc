@@ -3,6 +3,10 @@
         <file>main.qml</file>
         <file>Paddle.qml</file>
         <file>Ball.qml</file>
+        <file>ManualControls.qml</file>
+        <file>Game.qml</file>
+        <file>ComputerControls.qml</file>
         <file>Controls.qml</file>
+        <file>Utils.js</file>
     </qresource>
 </RCC>

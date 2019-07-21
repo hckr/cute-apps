@@ -8,66 +8,49 @@ Window {
   height: 768
   title: qsTr("Pong!")
 
-  Controls {
-    id: keys
-  }
+  Game {
+    id: game
+    orientation: "horizontal"
 
-  Paddle {
-    id: computer
+    Paddle {
+      id: player1
 
-    pos: 0.5
-    side: Paddle.Side.Top
+      pos: 0.5
+      side: Paddle.Side.Left
 
-    color: 'magenta'
-    radius: 10
-  }
+      color: 'magenta'
+      radius: 10
 
-  Paddle {
-    id: player
-
-    pos: 0.5
-    side: Paddle.Side.Bottom
-
-    color: 'cyan'
-    radius: 10
-  }
-
-  Ball {
-    id: ball
-
-    posX: 0.5
-    posY: 0.5
-
-    color: 'navy'
-  }
-
-  Timer {
-    interval: 10
-    running: true
-    repeat: true
-    onTriggered: {
-
-      if (keys._left) {
-        player.dec()
+      ManualControls {
+        decKey: Qt.Key_Up
+        incKey: Qt.Key_Down
       }
-      if (keys._right) {
-        player.inc()
-      }
+      //      ComputerControls {}
+    }
 
-      var goal = ball.speedY < 0 ? ball.posX : 0.5
-      var distX = computer.pos - goal
-      if (Math.abs(distX) > computer.moveStep) {
-        if (distX < 0) {
-          computer.inc()
-        } else if (distX > 0) {
-          computer.dec()
-        }
-      }
+    Paddle {
+      id: player2
 
-      ball.updatePos()
+      pos: 0.5
+      side: Paddle.Side.Right
 
-      player.handleBall(ball)
-      computer.handleBall(ball)
+      color: 'cyan'
+      radius: 10
+
+      //      ManualControls {
+      //        decKey: Qt.Key_A
+      //        incKey: Qt.Key_D
+      //      }
+      ComputerControls {}
+    }
+
+    Ball {
+      id: ball
+
+      posX: 0.5
+      posY: 0.5
+
+      color: 'navy'
     }
   }
 }

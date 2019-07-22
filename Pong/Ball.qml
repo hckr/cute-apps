@@ -16,7 +16,7 @@ Rectangle {
     posY += speedY
 
     if (game.orientation === 'horizontal') {
-      if (posY <= size / 2 || posY >= 1 - size / 2) {
+      if (posY < size / 2 && speedY < 0 || posY > 1 - size / 2 && speedY > 0) {
         speedY = -speedY
       }
 
@@ -25,7 +25,7 @@ Rectangle {
         reset()
       }
     } else {
-      if (posX <= size / 2 || posX >= 1 - size / 2) {
+      if (posX < size / 2 && speedX < 0 || posX > 1 - size / 2 && speedX > 0) {
         speedX = -speedX
       }
 
